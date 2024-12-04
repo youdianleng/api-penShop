@@ -16,6 +16,7 @@ import { User } from './models/local/user.entity';
       database: 'penshop',
       entities: [User],
       autoLoadEntities: true,
+      synchronize: true
     })
   ],
   controllers: [AppController],

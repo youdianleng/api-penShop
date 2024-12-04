@@ -8,31 +8,31 @@ import { serializer } from './user.interface';
 export class UserController {
     constructor(@Inject('USER_SERVICE') private readonly userService: UserService ){}
 
-    // @Get('')
-    // @UseInterceptors(ClassSerializerInterceptor)
-    // getUsers() {
-    //     const allUsers = this.userService.getAllCustomers();
+    @Get('')
+    @UseInterceptors(ClassSerializerInterceptor)
+    async getUsers() {
+        const allUsers = await this.userService.getAllCustomers();
     
-    //     const users = allUsers.map((user) => new serializer(user));
+        const users = allUsers.map((user) => new serializer(user));
 
-    //     return users;
-    // }
+        return users;
+    }
 
-    // @Get(':username')
-    // getUserByName(@Param('username') username: string, @Req() req: Request, @Res() res: Response ){
-    //     const user = this.userService.getUserByUsername(username);
-    //     if(user){
-    //         res.status(200).send(`hellow ${user}`)
-    //     }else{
-    //         res.status(404).send(`The user ${username} is not founded`)
-    //     }
-    // }
+    @Get(':username')
+    async getUserByName(@Param('username') username: string, @Req() req: Request, @Res() res: Response ){
+        const user = await this.userService.getUserByUsername(username);
+        if(user){
+            res.status(200).send(`hellow ${user}`)
+        }else{
+            res.status(404).send(`The user ${username} is not founded`)
+        }
+    }
 
 
     @Post('create')
     @UsePipes(ValidationPipe)
-    createUser(@Body() createUserDto: CreateUserDto){
-       return this.userService.createUser(createUserDto);
+    async createUser(@Body() createUserDto: CreateUserDto){
+       return await this.userService.createUser(createUserDto);
     }
 
 

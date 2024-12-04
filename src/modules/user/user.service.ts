@@ -12,13 +12,17 @@ export class UserService {
     constructor(@InjectRepository(User) private readonly userRepository: Repository<User>){}
     
     
-    getAllCustomers(){
-        // return this.User.map((user) => plainToClass(serializer, user));
+    async getAllCustomers(){
+        const allUsers = await this.userRepository.find();
+        const allUsersSerialized = allUsers.map((user) => plainToClass(serializer, user));
+        return allUsersSerialized
     }
 
-    getUserByUsername(username: string){
-        // const userFindByUsername = this.User.find((user) => user.name === username);
-        // return userFindByUsername;
+    async getUserByUsername(name: string) {
+        const userFindByUsername = await this.userRepository.findOne({
+            where: { name }
+        });
+        return userFindByUsername;
     }
 
     createUser(createUserDto: CreateUserDto){
