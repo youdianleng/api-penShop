@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './modules/user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from './models/local/user.entity';
 
 @Module({
   imports: [UserModule,
@@ -11,9 +12,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: 'root',
+      password: '',
       database: 'penshop',
-      synchronize: true,
+      entities: [User],
+      autoLoadEntities: true,
     })
   ],
   controllers: [AppController],
